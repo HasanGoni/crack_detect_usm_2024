@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "crack_detect_usm_2024"
+  site-url: "https://HasanGoni.github.io/crack_detect_usm_2024"
+  description: "crack detection in usm"
+  repo-branch: main
+  repo-url: "https://github.com/HasanGoni/crack_detect_usm_2024"
