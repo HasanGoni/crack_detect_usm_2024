@@ -63,27 +63,29 @@ def frm_full_img_to_splits_folder(
 def parse_args_():
 
 	import argparse
+	import os 
 	parser = argparse.ArgumentParser(description='Cut ROI from the image')
 	parser.add_argument('--im_path', type=str, help='Path to full image')
+	HOME = os.getenv('HOME')
 	parser.add_argument(
 		'--tmp_img1', 
 		type=str, 
-		default='/home/hasan/Schreibtisch/projects/data/crack_detect_usm/temp/sig1',
+		default=f'{HOME}/Schreibtisch/projects/data/crack_detect_usm/temp/sig1',
 		help='signature 1 template image path only path not with image name')
 	parser.add_argument(
 		'--tmp_img2', 
 		type=str, 
-		default='/home/hasan/Schreibtisch/projects/data/crack_detect_usm/temp/sig2',
+		default=f'{HOME}/Schreibtisch/projects/data/crack_detect_usm/temp/sig2',
 		help='signature 2 template image path')
 	parser.add_argument(
 		'--tmp_img3', 
 		type=str, 
-		default='/home/hasan/Schreibtisch/projects/data/crack_detect_usm/temp/sig3',
+		default=f'{HOME}/Schreibtisch/projects/data/crack_detect_usm/temp/sig3',
 		help='signature 3 template image path')
 	parser.add_argument(
 		'--tmp_img4', 
 		type=str, 
-		default='/home/hasan/Schreibtisch/projects/data/crack_detect_usm/temp/sig4',
+		default=f'{HOME}/Schreibtisch/projects/data/crack_detect_usm/temp/sig4',
 		help='signature 4 template image path')
 	parser.add_argument('--save_path', type=str, help='Path to save cutted images')
 
@@ -94,12 +96,12 @@ def parse_args_():
 def main_():
 	args = parse_args_()
 	tmp_sig1_img = read_img(Path(args.tmp_img1).ls()[0])
-	tmp_sig2_img = read_img(Path(args.tmp_img2).ls()[0])
-	tmp_sig3_img = read_img(Path(args.tmp_img3).ls()[0])
-	tmp_sig4_img = read_img(Path(args.tmp_img4).ls()[0])
+	#tmp_sig2_img = read_img(Path(args.tmp_img2).ls()[0])
+	#tmp_sig3_img = read_img(Path(args.tmp_img3).ls()[0])
+	#tmp_sig4_img = read_img(Path(args.tmp_img4).ls()[0])
 	frm_full_img_to_splits_folder(
 		im_path=args.im_path,
-		template_img=[tmp_sig1_img, tmp_sig2_img, tmp_sig3_img, tmp_sig4_img],
+		template_img=[tmp_sig1_img],
 		save_path=args.save_path
 	)
 

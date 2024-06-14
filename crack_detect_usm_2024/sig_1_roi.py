@@ -4,21 +4,24 @@ from fastcore.all import *
 from fastcore.basics import *
 from typing import List
 import cv2
+from functools import partial
+from typing import Union
 
+from cv_tools.core import *
 
 
 
 
 def blur_img_(
         img:np.ndarray,  #image
-        ks:int, # kernel size
+        ks:int=3, # kernel size
         ) -> np.ndarray:
     'Blur image'
     return cv2.GaussianBlur(img, (ks, ks), 0)
 
 def med_img_(
         img:np.ndarray,  #image
-        ks:int, # kernel size
+        ks:int=3, # kernel size
         ) -> np.ndarray:
     'Median image'
     return cv2.medianBlur(img, ks)
@@ -26,8 +29,8 @@ def med_img_(
 
 def canny_img_(
         img:np.ndarray,  #image
-        th1:int, #threshold1
-        th2:int, #threshold2
+        th1:int=50, #threshold1
+        th2:int=150, #threshold2
         ) -> np.ndarray:
     'Canny image'
     return cv2.Canny(img, th1, th2)
@@ -59,6 +62,7 @@ def filter_img_(
             img = ops[fl](img)
         else:
             print(f'Filter {fl} not found')
+    return img
 
     
 
@@ -98,8 +102,10 @@ def read_and_save_img_(
                     w_idx0=w_idx0,  
                     w_idx1=w_idx1,
                     )
+    Path(save_path).mkdir(parents=True, exist_ok=True  )
+    #print(f'Saving: {fn}')
     if save_path:
-        cv2.imwrite(img, f'{save_path}/{Path(fn).stem}.png')    
+        cv2.imwrite(f'{save_path}/{Path(fn).stem}.png',img)    
 
 def read_and_save_img_path_(
         path:Union[str, Path], # path of images
@@ -120,7 +126,9 @@ def read_and_save_img_path_(
         w_idx1=w_idx1,
         save_path=save_path,
     )
+    print(f'Path: {path}')
     fns = Path(path).ls()
+    print(f'Number of images: {len(fns)}')
     
     parallel(sv_, fns, n_workers=8, progress=True)
 
@@ -129,7 +137,7 @@ def parse_args_():
     import argparse
     parser = argparse.ArgumentParser(description='Signature 1 ROI')
     parser.add_argument(
-        '--path', type=str, nargs='+', help='Image file names')
+        '--path', type=str, help='Image file names')
     parser.add_argument(
         '--filters', type=str, nargs='+', help='Filters to be applied on image')
     parser.add_argument(
